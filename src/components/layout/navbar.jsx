@@ -1,3 +1,4 @@
+import logo from "@/dist/images/logo.png"
 import Image from "next/image"
 import { RiArrowDropDownLine } from "react-icons/ri"
 
@@ -5,12 +6,7 @@ const Navbar = () => {
     return (
         <div>
             <nav className="flex items-center justify-between">
-                <Image
-                    width={20}
-                    height={20}
-                    src="/src/dist/images/logo.png"
-                    alt="logo"
-                />
+                <Image width={20} height={20} src={logo} alt="logo" />
                 <div className="flex items-center justify-center gap-4">
                     <h3 className="cursor-pointer text-sm font-medium text-gray-700">
                         BDT{" "}
