@@ -1,4 +1,4 @@
-import FlightCard from "./flightCard" // Adjust the import path as necessary
+import FlightCard from "./flightCard" 
 
 const FlightCards = () => {
     return (

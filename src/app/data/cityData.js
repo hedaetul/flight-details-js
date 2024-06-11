@@ -1,5 +1,3 @@
-import { Md12Mp, Md18UpRating, MdWhatsapp } from "react-icons/md"
-
 const cityData = [
     {
         id: "DAC",
@@ -18,7 +16,7 @@ const cityData = [
     },
     {
         id: "CGP",
-        city: "Cittagong",
+        city: "Chittagong",
         airport: "Shah Amanat International Airport",
     },
     {
@@ -29,7 +27,3 @@ const cityData = [
 ]
 
 export default cityData
-
-
-
-

@@ -2,11 +2,18 @@
 import cityData from "@/app/data/cityData"
 import { useState } from "react"
 
+const updateData = {
+    id: "",
+    city: "",
+    airport: "",
+}
+
 const FlightCard = ({ label, initialValue }) => {
     const [showInput, setShowInput] = useState(false)
     const [location, setLocation] = useState(initialValue)
+    const [item, setItem] = useState(updateData)
 
-    const handleClick = () => {
+    const handleInputClick = () => {
         setShowInput(true)
     }
 
@@ -31,11 +38,19 @@ const FlightCard = ({ label, initialValue }) => {
             .sort((a, b) => a.city.localeCompare(b.city))
     }
 
+    const handleItemClick = () => {
+        console.log("hi")
+        setLocation(item.city)
+        setShowInput(false)
+        setItem(updateData)
+    }
+
     return (
-        <div className="flight-card-container" style={{ position: "relative" }}>
+        <div className="flight-card-container relative">
             {showInput ? (
                 <>
                     <input
+                        name={location}
                         className="flight-card px-3 py-1"
                         placeholder={label}
                         value={location}
@@ -43,28 +58,20 @@ const FlightCard = ({ label, initialValue }) => {
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                         autoFocus
-                        inp
                     />
                     <div
-                        className="dropdown-menu"
-                        onClick={()=>handleChange()}
-                        style={{
-                            position: "absolute",
-                            top: "100%",
-                            left: 0,
-                            backgroundColor: "white",
-                            border: "1px solid #ccc",
-                            zIndex: 10,
-                            width: "100%",
+                        onClick={(e) => {
+                            console.log("hi");
+                            e.preventDefault();
                         }}
+                        className="dropdown-menu absolute left-0 top-full w-full bg-white"
                     >
                         {getFilteredItems().map((item) => (
                             <div
                                 key={item.id}
-                                className="dropdown-item px-3 py-1 hover:bg-gray-200"
+                                className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
                                 onClick={() => {
-                                    setLocation(item.city)
-                                    setShowInput(false)
+                                    console.log("hi")
                                 }}
                             >
                                 <h3 className="text-sm uppercase text-gray-500">
@@ -81,7 +88,7 @@ const FlightCard = ({ label, initialValue }) => {
                 </>
             ) : (
                 <div
-                    onClick={handleClick}
+                    onClick={handleInputClick}
                     className="flight-card h-fit px-3 py-5"
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
