@@ -8,7 +8,7 @@ const updateData = {
     airport: "",
 }
 
-const FlightCard = ({ label, initialValue }) => {
+const FlightCard = ({ label, type, initialValue }) => {
     const [showInput, setShowInput] = useState(false)
     const [location, setLocation] = useState(initialValue)
     const [item, setItem] = useState(
@@ -18,10 +18,6 @@ const FlightCard = ({ label, initialValue }) => {
     const handleInputClick = () => {
         setShowInput(true)
     }
-
-    // const handleBlur = () => {
-    //     setShowInput(false)
-    // }
 
     const handleChange = (event) => {
         setLocation(event.target.value)
@@ -50,44 +46,59 @@ const FlightCard = ({ label, initialValue }) => {
             {showInput ? (
                 <>
                     <input
+                        type={type}
                         name={location}
-                        className="flight-card px-3 py-1"
+                        className="flight-card mt-8 px-3 py-5 outline-none"
                         placeholder={label}
-                        value={location}
-                        // onBlur={handleBlur}
+                        value={
+                            type === "text"
+                                ? location
+                                : new Date().toLocaleDateString()
+                        }
                         onChange={handleChange}
                         onKeyPress={handleKeyPress}
                         autoFocus
+                        sele
                     />
-                    <div className="dropdown-menu absolute left-0 top-full w-full bg-white">
-                        {getFilteredItems().map((item) => (
-                            <div
-                                key={item.id}
-                                className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
-                                onClick={() => {
-                                    handleItemClick(item)
-                                }}
-                            >
-                                <h3 className="text-sm uppercase text-gray-500">
-                                    {item.id}
-                                </h3>
-                                <h2 className="text-xl font-bold">
-                                    {item.city}
-                                </h2>
-                                <p className="text-gray-500">{item.airport}</p>
-                                <hr className="h-[1px] w-full bg-black" />
-                            </div>
-                        ))}
-                    </div>
+                    {type === "text" ? (
+                        <div className="dropdown-menu absolute left-0 top-full w-full bg-white">
+                            {getFilteredItems().map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
+                                    onClick={() => {
+                                        handleItemClick(item)
+                                    }}
+                                >
+                                    <h3 className="text-sm uppercase text-gray-500">
+                                        {item.id}
+                                    </h3>
+                                    <h2 className="text-xl font-bold">
+                                        {item.city}
+                                    </h2>
+                                    <p className="text-gray-500">
+                                        {item.airport}
+                                    </p>
+                                    <hr className="h-[1px] w-full bg-black" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : null}
                 </>
             ) : (
                 <div
                     onClick={handleInputClick}
-                    className="flight-card h-fit px-3 py-5"
+                    className="flight-card mt-8 px-3 py-5"
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
-                    <h2 className="text-xl font-bold">{item.city}</h2>
-                    <p className="text-gray-500">{item.airport}</p>
+                    <h2 className="text-xl font-bold">
+                        {type === "text"
+                            ? item.city
+                            : new Date().toLocaleDateString()}
+                    </h2>
+                    <p className="text-gray-500">
+                        {type === "text" ? item.airport : new Date().getDate()}
+                    </p>
                 </div>
             )}
         </div>

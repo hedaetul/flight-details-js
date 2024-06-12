@@ -6,10 +6,10 @@ const Navbar = () => {
     return (
         <div>
             <nav className="flex items-center justify-between">
-                <Image width={20} height={20} src={logo} alt="logo" />
+                <Image width={120} height={120} src={logo} alt="logo" />
                 <div className="flex items-center justify-center gap-4">
                     <h3 className="cursor-pointer text-sm font-medium text-gray-700">
-                        BDT{" "}
+                        BDT
                         <RiArrowDropDownLine className="inline text-2xl text-gray-700" />
                     </h3>
                     <button className="h-fit w-28 cursor-pointer rounded-md bg-violet-950 py-2 font-semibold text-white">
