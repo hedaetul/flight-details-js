@@ -50,9 +50,9 @@ const FlightCards = () => {
     }
 
     const consoleData = () => {
-        console.log(fromLocation)
-        console.log(toLocation)
-        console.log(journeyDate)
+        console.log('From: ', fromLocation)
+        console.log('To: ', toLocation)
+        console.log('Journey Date: ', journeyDate)
     }
 
     return (
