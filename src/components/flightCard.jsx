@@ -8,8 +8,6 @@ const dayNames = [
     "Saturday",
 ]
 
-const today = new Date().toLocaleDateString()
-
 const FlightCard = ({
     type,
     label,
@@ -22,9 +20,47 @@ const FlightCard = ({
     handleInputClick,
     handleChange,
     getFilteredItems,
-    handleFromLocationClick,
-    handleToLocationClick,
+    handleLocationClick,
 }) => {
+    const displayId = () => {
+        switch (label) {
+            case "From":
+                return fromLocation.id
+            case "To":
+                return toLocation.id
+            case "Date":
+                return null
+            default:
+                return ""
+        }
+    }
+
+    const displayValue = () => {
+        switch (label) {
+            case "From":
+                return fromLocation.city
+            case "To":
+                return toLocation.city
+            case "Journey Date":
+                return journeyDate
+            default:
+                return ""
+        }
+    }
+
+    const displayDetails = () => {
+        switch (label) {
+            case "From":
+                return fromLocation.airport
+            case "To":
+                return toLocation.airport
+            case "Journey Date":
+                return dayNames[new Date(journeyDate).getDay()]
+            default:
+                return ""
+        }
+    }
+
     return (
         <div className="flight-card-container relative">
             {showInput ? (
@@ -35,7 +71,7 @@ const FlightCard = ({
                         className="flight-card mt-8 px-3 py-5 outline-none"
                         placeholder={label}
                         value={type === "text" ? location : journeyDate}
-                        onChange={handleChange}
+                        onChange={(e) => handleChange(e, type)}
                         autoFocus
                     />
                     {type === "text" && (
@@ -44,11 +80,9 @@ const FlightCard = ({
                                 <div
                                     key={item.id}
                                     className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
-                                    onClick={() => {
-                                        label === "From"
-                                            ? handleFromLocationClick(item)
-                                            : handleToLocationClick(item)
-                                    }}
+                                    onClick={() =>
+                                        handleLocationClick(item, label)
+                                    }
                                 >
                                     <h3 className="text-sm uppercase text-gray-500">
                                         {item.id}
@@ -71,14 +105,8 @@ const FlightCard = ({
                     className="flight-card mt-8 px-3 py-5"
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
-                    <h2 className="text-xl font-bold">
-                        {type === "text" ? fromLocation.city : journeyDate}
-                    </h2>
-                    <p className="text-gray-500">
-                        {type === "text"
-                            ? fromLocation.airport
-                            : dayNames[new Date(journeyDate).getDay()]}
-                    </p>
+                    <h2 className="text-xl font-bold">{displayValue()}</h2>
+                    <p className="text-gray-500">{displayDetails()}</p>
                 </div>
             )}
         </div>
