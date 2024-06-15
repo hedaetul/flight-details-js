@@ -73,9 +73,13 @@ const FlightCard = ({
                         value={type === "text" ? location : journeyDate}
                         onChange={(e) => handleChange(e, type)}
                         autoFocus
+                        // onFocus={type === "date" ? (e) => e.target.showPicker() : null}
+                        // onFocus={
+                        //     type === "date" && ((e) => e.target.showPicker)
+                        // }
                     />
                     {type === "text" && (
-                        <div className="dropdown-menu absolute left-0 top-full w-full rounded-md bg-white">
+                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
                             {getFilteredItems().map((item) => (
                                 <div
                                     key={item.id}
