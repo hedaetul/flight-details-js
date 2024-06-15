@@ -75,7 +75,7 @@ const FlightCard = ({
                         autoFocus
                     />
                     {type === "text" && (
-                        <div className="dropdown-menu absolute left-0 top-full w-full bg-white">
+                        <div className="dropdown-menu absolute left-0 top-full w-full rounded-md bg-white">
                             {getFilteredItems().map((item) => (
                                 <div
                                     key={item.id}

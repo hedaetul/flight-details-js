@@ -11,7 +11,7 @@ const Page = () => {
                 <div className="container">
                     <Navbar />
                     <div className="flex-col-center relative mt-20">
-                        <div className="absolute top-[-50px] flex rounded-md bg-white px-16 py-5 shadow-lg">
+                        <div className="absolute top-[-50px] z-20 flex rounded-md bg-white px-16 py-5 shadow-lg">
                             <h2 className="mr-6 cursor-pointer text-sm font-medium">
                                 <MdFlightTakeoff className="mr-1 inline text-2xl" />{" "}
                                 Flight

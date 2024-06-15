@@ -50,14 +50,14 @@ const FlightCards = () => {
     }
 
     const consoleData = () => {
-        console.log('From: ', fromLocation)
-        console.log('To: ', toLocation)
-        console.log('Journey Date: ', journeyDate)
+        console.log("From: ", fromLocation)
+        console.log("To: ", toLocation)
+        console.log("Journey Date: ", journeyDate)
     }
 
     return (
-        <div>
-            <div className="flex h-fit gap-4 rounded-md bg-white">
+        <div className="relative z-10">
+            <div className="flex gap-4 rounded-3xl bg-white px-10 pb-12 pt-6">
                 <FlightCard
                     type="text"
                     label="From"
@@ -101,12 +101,14 @@ const FlightCards = () => {
                     handleLocationClick={handleLocationClick}
                 />
             </div>
-            <button
-                onClick={consoleData}
-                className="rounded-sm bg-yellow-500 px-8 py-2 font-medium text-black"
-            >
-                Search
-            </button>
+            <div className="flex-row-center">
+                <button
+                    onClick={consoleData}
+                    className="absolute bottom-[-20px] rounded-lg bg-yellow-500 px-8 py-2 text-lg font-semibold text-gray-800"
+                >
+                    Search
+                </button>
+            </div>
         </div>
     )
 }
