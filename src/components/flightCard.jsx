@@ -20,6 +20,8 @@ const FlightCard = ({
     location,
     journeyDate,
     returnDate,
+    setJourneyDate,
+    setReturnDate,
     handleInputClick,
     handleChange,
     getFilteredItems,
@@ -111,7 +113,16 @@ const FlightCard = ({
                             ))}
                         </div>
                     ) : (
-                        <DateRangePicker />
+                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                            <div className="dropdown-item px-3 py-1">
+                                <DateRangePicker
+                                    journeyDate={journeyDate}
+                                    setJourneyDate={setJourneyDate}
+                                    returnDate={returnDate}
+                                    setReturnDate={setReturnDate}
+                                />
+                            </div>
+                        </div>
                     )}
                 </>
             ) : (

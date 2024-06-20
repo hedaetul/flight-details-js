@@ -1,22 +1,14 @@
-// components/DateRangePicker.js
-import { useState } from "react"
 import { DateRange } from "react-date-range"
 import "react-date-range/dist/styles.css" // main css file
 import "react-date-range/dist/theme/default.css" // theme css file
 
-const DateRangePicker = () => {
-    const [state, setState] = useState([
-        {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: "selection",
-        },
-    ])
-
+const DateRangePicker = ({ setJourneyDate, setReturnDate }) => {
     const handleSelect = (ranges) => {
-        setState([ranges.selection])
-        console.log("Journey Date:", ranges.selection.startDate)
-        console.log("Return Date:", ranges.selection.endDate)
+        const startDate = ranges.selection.startDate.toLocaleDateString()
+        const endDate = ranges.selection.endDate.toLocaleDateString()
+
+        setJourneyDate(startDate)
+        setReturnDate(endDate)
     }
 
     return (
@@ -24,7 +16,13 @@ const DateRangePicker = () => {
             editableDateInputs={true}
             onChange={handleSelect}
             moveRangeOnFirstSelection={false}
-            ranges={state}
+            ranges={[
+                {
+                    startDate: new Date(),
+                    endDate: new Date(),
+                    key: "selection",
+                },
+            ]}
         />
     )
 }

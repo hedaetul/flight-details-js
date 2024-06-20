@@ -73,6 +73,9 @@ const FlightCards = () => {
                     toLocation={toLocation}
                     location={location}
                     journeyDate={journeyDate}
+                    returnDate={returnDate}
+                    setJourneyDate={setJourneyDate}
+                    setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("from")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
@@ -88,6 +91,8 @@ const FlightCards = () => {
                     location={location}
                     journeyDate={journeyDate}
                     returnDate={returnDate}
+                    setJourneyDate={setJourneyDate}
+                    setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("to")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
@@ -103,6 +108,8 @@ const FlightCards = () => {
                     location={location}
                     journeyDate={journeyDate}
                     returnDate={returnDate}
+                    setJourneyDate={setJourneyDate}
+                    setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("date")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
@@ -118,6 +125,8 @@ const FlightCards = () => {
                     location={location}
                     journeyDate={journeyDate}
                     returnDate={returnDate}
+                    setJourneyDate={setJourneyDate}
+                    setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("date")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
