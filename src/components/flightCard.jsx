@@ -1,3 +1,5 @@
+import DateRangePicker from "./dateRangePicker"
+
 const dayNames = [
     "Sunday",
     "Monday",
@@ -17,6 +19,7 @@ const FlightCard = ({
     toLocation,
     location,
     journeyDate,
+    returnDate,
     handleInputClick,
     handleChange,
     getFilteredItems,
@@ -28,7 +31,9 @@ const FlightCard = ({
                 return fromLocation.id
             case "To":
                 return toLocation.id
-            case "Date":
+            case "Journey Date":
+                return null
+            case "Return Date":
                 return null
             default:
                 return ""
@@ -43,6 +48,8 @@ const FlightCard = ({
                 return toLocation.city
             case "Journey Date":
                 return journeyDate
+            case "Return Date":
+                return returnDate
             default:
                 return ""
         }
@@ -56,6 +63,8 @@ const FlightCard = ({
                 return toLocation.airport
             case "Journey Date":
                 return dayNames[new Date(journeyDate).getDay()]
+            case "Return Date":
+                return dayNames[new Date(returnDate).getDay()]
             default:
                 return ""
         }
@@ -78,7 +87,7 @@ const FlightCard = ({
                         //     type === "date" && ((e) => e.target.showPicker)
                         // }
                     />
-                    {type === "text" && (
+                    {type === "text" ? (
                         <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
                             {getFilteredItems().map((item) => (
                                 <div
@@ -101,6 +110,8 @@ const FlightCard = ({
                                 </div>
                             ))}
                         </div>
+                    ) : (
+                        <DateRangePicker />
                     )}
                 </>
             ) : (

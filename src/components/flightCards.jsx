@@ -5,6 +5,11 @@ import { useState } from "react"
 import FlightCard from "./flightCard"
 
 const today = new Date().toLocaleDateString()
+const tomorrow = () => {
+    const tomorrowDate = new Date()
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1)
+    return tomorrowDate.toLocaleDateString()
+}
 
 const FlightCards = () => {
     const [showInput, setShowInput] = useState({
@@ -15,6 +20,7 @@ const FlightCards = () => {
     const [fromLocation, setFromLocation] = useState(cityData[0])
     const [toLocation, setToLocation] = useState(cityData[1])
     const [journeyDate, setJourneyDate] = useState(today)
+    const [returnDate, setReturnDate] = useState(tomorrow)
     const [location, setLocation] = useState(fromLocation.city)
 
     const handleInputClick = (field) => {
@@ -81,6 +87,7 @@ const FlightCards = () => {
                     toLocation={toLocation}
                     location={location}
                     journeyDate={journeyDate}
+                    returnDate={returnDate}
                     handleInputClick={() => handleInputClick("to")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
@@ -95,6 +102,22 @@ const FlightCards = () => {
                     toLocation={toLocation}
                     location={location}
                     journeyDate={journeyDate}
+                    returnDate={returnDate}
+                    handleInputClick={() => handleInputClick("date")}
+                    handleChange={handleChange}
+                    getFilteredItems={getFilteredItems}
+                    handleLocationClick={handleLocationClick}
+                />
+                <FlightCard
+                    type="date"
+                    label="Return Date"
+                    initialValue={returnDate}
+                    showInput={showInput.date}
+                    fromLocation={fromLocation}
+                    toLocation={toLocation}
+                    location={location}
+                    journeyDate={journeyDate}
+                    returnDate={returnDate}
                     handleInputClick={() => handleInputClick("date")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
