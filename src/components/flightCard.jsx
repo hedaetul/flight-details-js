@@ -1,3 +1,4 @@
+import { formatDateToMMMDDYYYY } from "@/utils/dateUtils" // Adjust the path as per your actual structure
 import DateRangePicker from "./dateRangePicker"
 
 const dayNames = [
@@ -33,10 +34,7 @@ const FlightCard = ({
                 return fromLocation.id
             case "To":
                 return toLocation.id
-            case "Journey Date":
-                return null
-            case "Return Date":
-                return null
+
             default:
                 return ""
         }
@@ -49,9 +47,9 @@ const FlightCard = ({
             case "To":
                 return toLocation.city
             case "Journey Date":
-                return journeyDate
+                return formatDateToMMMDDYYYY(new Date(journeyDate))
             case "Return Date":
-                return returnDate
+                return formatDateToMMMDDYYYY(new Date(returnDate))
             default:
                 return ""
         }
@@ -76,22 +74,9 @@ const FlightCard = ({
         <div className="flight-card-container relative">
             {showInput ? (
                 <>
-                    <input
-                        type={type}
-                        name={label}
-                        className="flight-card mt-8 px-3 py-5 outline-none"
-                        placeholder={label}
-                        value={type === "text" ? location : journeyDate}
-                        onChange={(e) => handleChange(e, type)}
-                        autoFocus
-                        // onFocus={type === "date" ? (e) => e.target.showPicker() : null}
-                        // onFocus={
-                        //     type === "date" && ((e) => e.target.showPicker)
-                        // }
-                    />
-                    {type === "text" ? (
-                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
-                            {getFilteredItems().map((item) => (
+                    <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                        {type === "text" ? (
+                            getFilteredItems().map((item) => (
                                 <div
                                     key={item.id}
                                     className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
@@ -110,28 +95,32 @@ const FlightCard = ({
                                     </p>
                                     <hr className="h-[1px] w-full bg-black" />
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
-                            <div className="dropdown-item px-3 py-1">
-                                <DateRangePicker
-                                    journeyDate={journeyDate}
-                                    setJourneyDate={setJourneyDate}
-                                    returnDate={returnDate}
-                                    setReturnDate={setReturnDate}
-                                />
+                            ))
+                        ) : (
+                            <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                                <div className="dropdown-item px-3 py-1">
+                                    <DateRangePicker
+                                        journeyDate={journeyDate}
+                                        returnDate={returnDate}
+                                        setJourneyDate={setJourneyDate}
+                                        setReturnDate={setReturnDate}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </>
             ) : (
                 <div
+                    className="flight-card mt-8 cursor-pointer px-3 py-5"
                     onClick={handleInputClick}
-                    className="flight-card mt-8 px-3 py-5"
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
-                    <h2 className="text-xl font-bold">{displayValue()}</h2>
+                    <h2 className="text-xl font-bold">
+                        {type === "text"
+                            ? `${displayValue()}[${displayId()}]`
+                            : displayValue()}
+                    </h2>
                     <p className="text-gray-500">{displayDetails()}</p>
                 </div>
             )}

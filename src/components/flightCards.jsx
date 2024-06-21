@@ -1,65 +1,64 @@
-"use client"
+'use client'
 
-import cityData from "@/app/data/cityData"
-import { useState } from "react"
-import FlightCard from "./flightCard"
-
-const today = new Date().toLocaleDateString()
-const tomorrow = () => {
-    const tomorrowDate = new Date()
-    tomorrowDate.setDate(tomorrowDate.getDate() + 1)
-    return tomorrowDate.toLocaleDateString()
-}
+import React, { useState } from "react";
+import cityData from '@/app/data/cityData'
+import FlightCard from './flightCard'
+import DateRangePicker from './dateRangePicker' 
+import { formatDateToYYYYMMDD } from '@/utils/dateUtils'
 
 const FlightCards = () => {
     const [showInput, setShowInput] = useState({
         from: false,
         to: false,
         date: false,
-    })
-    const [fromLocation, setFromLocation] = useState(cityData[0])
-    const [toLocation, setToLocation] = useState(cityData[1])
-    const [journeyDate, setJourneyDate] = useState(today)
-    const [returnDate, setReturnDate] = useState(tomorrow)
-    const [location, setLocation] = useState(fromLocation.city)
+    });
+    const [fromLocation, setFromLocation] = useState(cityData[0]);
+    const [toLocation, setToLocation] = useState(cityData[1]);
+    const [journeyDate, setJourneyDate] = useState(new Date());
+    const [returnDate, setReturnDate] = useState(new Date());
+    const [location, setLocation] = useState(fromLocation.city);
 
     const handleInputClick = (field) => {
-        setShowInput((prev) => ({ ...prev, [field]: !prev[field] }))
-    }
+        setShowInput((prev) => ({ ...prev, [field]: !prev[field] }));
+    };
 
     const handleChange = (e, type) => {
-        const value = e.target.value
+        const value = e.target.value;
         if (type === "text") {
-            setLocation(value)
-        } else if (type === "date") {
-            setJourneyDate(value)
+            setLocation(value);
         }
-    }
+    };
 
     const getFilteredItems = () => {
         return cityData
             .filter((item) =>
-                item.city.toLowerCase().includes(location.toLowerCase()),
+                item.city.toLowerCase().includes(location.toLowerCase())
             )
-            .sort((a, b) => a.city.localeCompare(b.city))
-    }
+            .sort((a, b) => a.city.localeCompare(b.city));
+    };
 
     const handleLocationClick = (item, label) => {
         if (label === "From") {
-            setFromLocation(item)
-            setLocation(item.city)
+            setFromLocation(item);
+            setLocation(item.city);
         } else if (label === "To") {
-            setToLocation(item)
-            setLocation(item.city)
+            setToLocation(item);
+            setLocation(item.city);
         }
-        setShowInput((prev) => ({ ...prev, [label.toLowerCase()]: false }))
-    }
+        setShowInput((prev) => ({ ...prev, [label.toLowerCase()]: false }));
+    };
+
+    const handleDateChange = (startDate, endDate) => {
+        setJourneyDate(startDate);
+        setReturnDate(endDate);
+    };
 
     const consoleData = () => {
-        console.log("From: ", fromLocation)
-        console.log("To: ", toLocation)
-        console.log("Journey Date: ", journeyDate)
-    }
+        console.log("From: ", fromLocation);
+        console.log("To: ", toLocation);
+        console.log("Journey Date: ", formatDateToYYYYMMDD(journeyDate));
+        console.log("Return Date: ", formatDateToYYYYMMDD(returnDate));
+    };
 
     return (
         <div className="relative z-10">
@@ -72,14 +71,10 @@ const FlightCards = () => {
                     fromLocation={fromLocation}
                     toLocation={toLocation}
                     location={location}
-                    journeyDate={journeyDate}
-                    returnDate={returnDate}
-                    setJourneyDate={setJourneyDate}
-                    setReturnDate={setReturnDate}
-                    handleInputClick={() => handleInputClick("from")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
-                    handleLocationClick={handleLocationClick}
+                    handleLocationClick={(item) => handleLocationClick(item, "From")}
+                    handleInputClick={() => handleInputClick("from")}
                 />
                 <FlightCard
                     type="text"
@@ -89,48 +84,34 @@ const FlightCards = () => {
                     fromLocation={fromLocation}
                     toLocation={toLocation}
                     location={location}
-                    journeyDate={journeyDate}
-                    returnDate={returnDate}
-                    setJourneyDate={setJourneyDate}
-                    setReturnDate={setReturnDate}
-                    handleInputClick={() => handleInputClick("to")}
                     handleChange={handleChange}
                     getFilteredItems={getFilteredItems}
-                    handleLocationClick={handleLocationClick}
+                    handleLocationClick={(item) => handleLocationClick(item, "To")}
+                    handleInputClick={() => handleInputClick("to")}
                 />
                 <FlightCard
                     type="date"
                     label="Journey Date"
-                    initialValue={journeyDate}
+                    initialValue={formatDateToYYYYMMDD(journeyDate)}
                     showInput={showInput.date}
-                    fromLocation={fromLocation}
-                    toLocation={toLocation}
-                    location={location}
                     journeyDate={journeyDate}
                     returnDate={returnDate}
                     setJourneyDate={setJourneyDate}
                     setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("date")}
-                    handleChange={handleChange}
-                    getFilteredItems={getFilteredItems}
-                    handleLocationClick={handleLocationClick}
+                    DateRangePicker={DateRangePicker}
                 />
                 <FlightCard
                     type="date"
                     label="Return Date"
-                    initialValue={returnDate}
+                    initialValue={formatDateToYYYYMMDD(returnDate)}
                     showInput={showInput.date}
-                    fromLocation={fromLocation}
-                    toLocation={toLocation}
-                    location={location}
                     journeyDate={journeyDate}
                     returnDate={returnDate}
                     setJourneyDate={setJourneyDate}
                     setReturnDate={setReturnDate}
                     handleInputClick={() => handleInputClick("date")}
-                    handleChange={handleChange}
-                    getFilteredItems={getFilteredItems}
-                    handleLocationClick={handleLocationClick}
+                    DateRangePicker={DateRangePicker}
                 />
             </div>
             <div className="flex-row-center">
@@ -142,7 +123,7 @@ const FlightCards = () => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default FlightCards
+export default FlightCards;

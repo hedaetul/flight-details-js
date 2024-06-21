@@ -1,15 +1,19 @@
-import { DateRange } from "react-date-range"
-import "react-date-range/dist/styles.css" // main css file
-import "react-date-range/dist/theme/default.css" // theme css file
+import React from "react";
+import { DateRange } from "react-date-range";
+import { formatDateToYYYYMMDD, formatDateToMMMDDYYYY } from "@/utils/dateUtils"; // Adjust the path as per your actual structure
 
-const DateRangePicker = ({ setJourneyDate, setReturnDate }) => {
+const DateRangePicker = ({ journeyDate, returnDate, setJourneyDate, setReturnDate }) => {
     const handleSelect = (ranges) => {
-        const startDate = ranges.selection.startDate.toLocaleDateString()
-        const endDate = ranges.selection.endDate.toLocaleDateString()
+        const startDate = formatDateToYYYYMMDD(ranges.selection.startDate);
+        const endDate = formatDateToYYYYMMDD(ranges.selection.endDate);
 
-        setJourneyDate(startDate)
-        setReturnDate(endDate)
-    }
+        setJourneyDate(startDate);
+        setReturnDate(endDate);
+    };
+
+    // Convert dates to the display format
+    const formattedJourneyDate = formatDateToMMMDDYYYY(new Date(journeyDate));
+    const formattedReturnDate = formatDateToMMMDDYYYY(new Date(returnDate));
 
     return (
         <DateRange
@@ -18,13 +22,22 @@ const DateRangePicker = ({ setJourneyDate, setReturnDate }) => {
             moveRangeOnFirstSelection={false}
             ranges={[
                 {
-                    startDate: new Date(),
-                    endDate: new Date(),
+                    startDate: new Date(journeyDate),
+                    endDate: new Date(returnDate),
                     key: "selection",
                 },
             ]}
-        />
-    )
-}
+            showDateDisplay={false} // Disable default date display
+        >
+            <input
+                type="text"
+                name="journeyDate"
+                value={`${formattedJourneyDate} - ${formattedReturnDate}`}
+                readOnly
+                className="flight-card mt-8 px-3 py-5 outline-none"
+            />
+        </DateRange>
+    );
+};
 
-export default DateRangePicker
+export default DateRangePicker;
