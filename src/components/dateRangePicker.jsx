@@ -1,19 +1,25 @@
-import React from "react";
-import { DateRange } from "react-date-range";
-import { formatDateToYYYYMMDD, formatDateToMMMDDYYYY } from "@/utils/dateUtils"; // Adjust the path as per your actual structure
+import { formatDateToMMMDDYYYY, formatDateToYYYYMMDD } from "@/utils/dateUtils"
+import { DateRange } from "react-date-range"
+import "react-date-range/dist/styles.css"
+import "react-date-range/dist/theme/default.css"
 
-const DateRangePicker = ({ journeyDate, returnDate, setJourneyDate, setReturnDate }) => {
+const DateRangePicker = ({
+    journeyDate,
+    returnDate,
+    setJourneyDate,
+    setReturnDate,
+}) => {
     const handleSelect = (ranges) => {
-        const startDate = formatDateToYYYYMMDD(ranges.selection.startDate);
-        const endDate = formatDateToYYYYMMDD(ranges.selection.endDate);
+        const startDate = formatDateToYYYYMMDD(ranges.selection.startDate)
+        const endDate = formatDateToYYYYMMDD(ranges.selection.endDate)
 
-        setJourneyDate(startDate);
-        setReturnDate(endDate);
-    };
+        setJourneyDate(startDate)
+        setReturnDate(endDate)
+    }
 
     // Convert dates to the display format
-    const formattedJourneyDate = formatDateToMMMDDYYYY(new Date(journeyDate));
-    const formattedReturnDate = formatDateToMMMDDYYYY(new Date(returnDate));
+    const formattedJourneyDate = formatDateToMMMDDYYYY(journeyDate)
+    const formattedReturnDate = formatDateToMMMDDYYYY(returnDate)
 
     return (
         <DateRange
@@ -27,7 +33,7 @@ const DateRangePicker = ({ journeyDate, returnDate, setJourneyDate, setReturnDat
                     key: "selection",
                 },
             ]}
-            showDateDisplay={false} // Disable default date display
+            showDateDisplay={false}
         >
             <input
                 type="text"
@@ -37,7 +43,7 @@ const DateRangePicker = ({ journeyDate, returnDate, setJourneyDate, setReturnDat
                 className="flight-card mt-8 px-3 py-5 outline-none"
             />
         </DateRange>
-    );
-};
+    )
+}
 
-export default DateRangePicker;
+export default DateRangePicker

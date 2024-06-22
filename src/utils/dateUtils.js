@@ -1,12 +1,31 @@
-import { format, parse } from 'date-fns';
+import { format, parse, isValid } from 'date-fns';
 
 export const formatDateToYYYYMMDD = (date) => {
-    const parsedDate = typeof date === 'string' ? parse(date, 'yyyy-MM-dd', new Date()) : date;
+    let parsedDate;
+    if (typeof date === 'string') {
+        parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+    } else {
+        parsedDate = date;
+    }
+
+    if (!isValid(parsedDate)) {
+        throw new Error(`Invalid date: ${date}`);
+    }
+
     return format(parsedDate, 'yyyy-MM-dd');
 };
 
 export const formatDateToMMMDDYYYY = (date) => {
-    const parsedDate = typeof date === 'string' ? parse(date, 'yyyy-MM-dd', new Date()) : date;
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return format(parsedDate, 'MMM dd, yyyy', options);
+    let parsedDate;
+    if (typeof date === 'string') {
+        parsedDate = parse(date, 'yyyy-MM-dd', new Date());
+    } else {
+        parsedDate = date;
+    }
+
+    if (!isValid(parsedDate)) {
+        throw new Error(`Invalid date: ${date}`);
+    }
+
+    return format(parsedDate, 'MMM dd, yyyy');
 };

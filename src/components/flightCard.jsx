@@ -25,8 +25,10 @@ const FlightCard = ({
     setReturnDate,
     handleInputClick,
     handleChange,
+    handleDateChange,
     getFilteredItems,
     handleLocationClick,
+    dateType,
 }) => {
     const displayId = () => {
         switch (label) {
@@ -34,7 +36,6 @@ const FlightCard = ({
                 return fromLocation.id
             case "To":
                 return toLocation.id
-
             default:
                 return ""
         }
@@ -47,9 +48,9 @@ const FlightCard = ({
             case "To":
                 return toLocation.city
             case "Journey Date":
-                return formatDateToMMMDDYYYY(new Date(journeyDate))
+                return formatDateToMMMDDYYYY(journeyDate)
             case "Return Date":
-                return formatDateToMMMDDYYYY(new Date(returnDate))
+                return formatDateToMMMDDYYYY(returnDate)
             default:
                 return ""
         }
@@ -70,13 +71,37 @@ const FlightCard = ({
         }
     }
 
+    const inputValue = () => {
+        switch (label) {
+            case "From":
+                return fromLocation.city
+            case "To":
+                return toLocation.city
+            case "Journey Date":
+                return journeyDate
+            case "Return Date":
+                return returnDate
+            default:
+                return ""
+        }
+    }
+
     return (
         <div className="flight-card-container relative">
             {showInput ? (
                 <>
-                    <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
-                        {type === "text" ? (
-                            getFilteredItems().map((item) => (
+                    <input
+                        type={type}
+                        name={label}
+                        className="flight-card mt-8 px-3 py-5 outline-none"
+                        placeholder={label}
+                        value={inputValue()}
+                        onChange={(e) => handleChange(e, type)}
+                        autoFocus
+                    />
+                    {type === "text" ? (
+                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                            {getFilteredItems().map((item) => (
                                 <div
                                     key={item.id}
                                     className="dropdown-item cursor-pointer px-3 py-1 hover:bg-gray-200"
@@ -95,25 +120,26 @@ const FlightCard = ({
                                     </p>
                                     <hr className="h-[1px] w-full bg-black" />
                                 </div>
-                            ))
-                        ) : (
-                            <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
-                                <div className="dropdown-item px-3 py-1">
-                                    <DateRangePicker
-                                        journeyDate={journeyDate}
-                                        returnDate={returnDate}
-                                        setJourneyDate={setJourneyDate}
-                                        setReturnDate={setReturnDate}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                            <DateRangePicker
+                                journeyDate={journeyDate}
+                                returnDate={returnDate}
+                                setJourneyDate={setJourneyDate}
+                                setReturnDate={setReturnDate}
+                                handleDateChange={(date) =>
+                                    handleDateChange(date, dateType)
+                                }
+                            />
+                        </div>
+                    )}
                 </>
             ) : (
                 <div
                     className="flight-card mt-8 cursor-pointer px-3 py-5"
-                    onClick={handleInputClick}
+                    onClick={() => handleInputClick(label)}
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
                     <h2 className="text-xl font-bold">
