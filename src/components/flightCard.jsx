@@ -1,3 +1,6 @@
+import { formatDateToMMMDDYYYY } from "@/utils/dateUtils" // Adjust the path as per your actual structure
+import DateRangePicker from "./dateRangePicker"
+
 const dayNames = [
     "Sunday",
     "Monday",
@@ -17,10 +20,15 @@ const FlightCard = ({
     toLocation,
     location,
     journeyDate,
+    returnDate,
+    setJourneyDate,
+    setReturnDate,
     handleInputClick,
     handleChange,
+    handleDateChange,
     getFilteredItems,
     handleLocationClick,
+    dateType,
 }) => {
     const displayId = () => {
         switch (label) {
@@ -28,8 +36,6 @@ const FlightCard = ({
                 return fromLocation.id
             case "To":
                 return toLocation.id
-            case "Date":
-                return null
             default:
                 return ""
         }
@@ -42,7 +48,9 @@ const FlightCard = ({
             case "To":
                 return toLocation.city
             case "Journey Date":
-                return journeyDate
+                return formatDateToMMMDDYYYY(journeyDate)
+            case "Return Date":
+                return formatDateToMMMDDYYYY(returnDate)
             default:
                 return ""
         }
@@ -56,6 +64,23 @@ const FlightCard = ({
                 return toLocation.airport
             case "Journey Date":
                 return dayNames[new Date(journeyDate).getDay()]
+            case "Return Date":
+                return dayNames[new Date(returnDate).getDay()]
+            default:
+                return ""
+        }
+    }
+
+    const inputValue = () => {
+        switch (label) {
+            case "From":
+                return fromLocation.city
+            case "To":
+                return toLocation.city
+            case "Journey Date":
+                return journeyDate
+            case "Return Date":
+                return returnDate
             default:
                 return ""
         }
@@ -70,15 +95,11 @@ const FlightCard = ({
                         name={label}
                         className="flight-card mt-8 px-3 py-5 outline-none"
                         placeholder={label}
-                        value={type === "text" ? location : journeyDate}
+                        value={inputValue()}
                         onChange={(e) => handleChange(e, type)}
                         autoFocus
-                        // onFocus={type === "date" ? (e) => e.target.showPicker() : null}
-                        // onFocus={
-                        //     type === "date" && ((e) => e.target.showPicker)
-                        // }
                     />
-                    {type === "text" && (
+                    {type === "text" ? (
                         <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
                             {getFilteredItems().map((item) => (
                                 <div
@@ -101,15 +122,31 @@ const FlightCard = ({
                                 </div>
                             ))}
                         </div>
+                    ) : (
+                        <div className="dropdown-menu absolute left-0 top-full z-40 w-full rounded-md bg-white">
+                            <DateRangePicker
+                                journeyDate={journeyDate}
+                                returnDate={returnDate}
+                                setJourneyDate={setJourneyDate}
+                                setReturnDate={setReturnDate}
+                                handleDateChange={(date) =>
+                                    handleDateChange(date, dateType)
+                                }
+                            />
+                        </div>
                     )}
                 </>
             ) : (
                 <div
-                    onClick={handleInputClick}
-                    className="flight-card mt-8 px-3 py-5"
+                    className="flight-card mt-8 cursor-pointer px-3 py-5"
+                    onClick={() => handleInputClick(label)}
                 >
                     <h3 className="text-sm uppercase text-gray-500">{label}</h3>
-                    <h2 className="text-xl font-bold">{displayValue()}</h2>
+                    <h2 className="text-xl font-bold">
+                        {type === "text"
+                            ? `${displayValue()}[${displayId()}]`
+                            : displayValue()}
+                    </h2>
                     <p className="text-gray-500">{displayDetails()}</p>
                 </div>
             )}
